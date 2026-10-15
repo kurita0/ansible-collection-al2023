@@ -1,0 +1,12 @@
+---
+- name: Install cronie
+  dnf:
+    name:
+      - cronie
+    state: present
+
+- name: Start crond service
+  service:
+    name: crond
+    state: started
+    enabled: true

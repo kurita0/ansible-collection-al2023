@@ -1,0 +1,15 @@
+<IfModule mod_status.c>
+<Location /server-status>
+    SetHandler server-status
+{% for line in apache24_info_access_control %}
+    {{ line }}
+{% endfor %}
+</Location>
+ExtendedStatus On
+</IfModule>
+<Location /server-info>
+    SetHandler server-info
+{% for line in apache24_info_access_control %}
+    {{ line }}
+{% endfor %}
+</Location>

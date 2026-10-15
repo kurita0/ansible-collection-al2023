@@ -1,0 +1,39 @@
+---
+- name: Install PHP
+  dnf:
+    name:
+      - php8.5-fpm
+      - php8.5-cli
+      - php8.5-common
+    state: present
+
+- name: PHP configuration file
+  template:
+    src: php.ini.j2
+    dest: /etc/php.ini
+    backup: yes
+  notify:
+    - restart php-fpm
+
+- name: 10-opcache.ini
+  template:
+    src: 10-opcache.ini.j2
+    dest: /etc/php.d/10-opcache.ini
+    backup: yes
+  notify:
+    - restart php-fpm
+
+- name: Copy www.conf
+  template:
+    src: "{{ php_fpm_www_conf }}"
+    dest: /etc/php-fpm.d/www.conf
+    backup: yes
+    block_start_string: "{-%"
+    block_end_string: "%-}"
+  notify: restart php-fpm
+
+- name: Start php-fpm service
+  service:
+    name: php-fpm
+    state: started
+    enabled: true

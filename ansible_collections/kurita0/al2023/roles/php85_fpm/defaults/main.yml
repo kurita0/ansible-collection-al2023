@@ -1,0 +1,20 @@
+---
+php_max_execution_time: 30
+php_max_input_time: 60
+php_max_input_vars: 1000
+php_memory_limit: 128M
+php_post_max_size: 8M
+php_upload_max_filesize: 2M
+php_date_timezone: '"UTC"'
+php_opcache_memory_consumption: 128
+php_opcache_interned_strings_buffer: 8
+php_opcache_max_accelerated_files: 10000
+php_fpm_www_conf: www.conf.j2
+php_fpm_www_user: apache
+php_fpm_www_group: apache
+php_fpm_www_listen_acl_users: apache,nginx
+php_fpm_www_pm_max_children: 50
+php_fpm_www_pm_start_servers: 5
+php_fpm_www_pm_min_spare_servers: 5
+php_fpm_www_pm_max_spare_servers: 35
+php_fpm_www_pm_max_requests: 0

@@ -1,0 +1,23 @@
+---
+- name: Import MySQL RPM GPG key
+  ansible.builtin.rpm_key:
+    key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2025
+    state: present
+
+- name: Download mysql84-community-release
+  ansible.builtin.get_url:
+    url: https://repo.mysql.com/mysql84-community-release-el9-1.noarch.rpm
+    dest: /var/tmp/mysql84-community-release-el9-1.noarch.rpm
+    checksum: "md5:15a20fea9018662224f354cb78b392e7"
+    mode: '0644'
+
+- name: Install mysql84-community-release
+  dnf:
+    name: /var/tmp/mysql84-community-release-el9-1.noarch.rpm
+    state: present
+
+- name: Install MySQL client
+  dnf:
+    name:
+      - mysql-community-client
+    state: present

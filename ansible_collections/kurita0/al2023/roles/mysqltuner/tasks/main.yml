@@ -1,0 +1,18 @@
+---
+- name: Install mysqltuner required
+  dnf:
+    name:
+      - perl-Sys-Hostname
+    state: present
+
+- name: stat mysqltuner
+  stat: path=/usr/local/bin/mysqltuner
+  register: mysqltuner_stat
+
+- name: mysqltuner.installed
+  get_url:
+    url: http://mysqltuner.pl/
+    dest: /usr/local/bin/mysqltuner
+  when: not mysqltuner_stat.stat.exists
+
+- file: path=/usr/local/bin/mysqltuner state=file mode=a+x

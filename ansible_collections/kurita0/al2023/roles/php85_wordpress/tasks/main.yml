@@ -1,0 +1,12 @@
+---
+- name: Install PHP module
+  dnf:
+    name:
+      - php8.5-devel
+      - php8.5-gd
+      - php8.5-intl
+      - php8.5-mbstring
+      - php8.5-mysqlnd
+      - php8.5-xml
+      - php8.5-zip
+    state: present

@@ -1,0 +1,32 @@
+---
+- name: Install postfix
+  yum:
+    name:
+      - cyrus-sasl-plain
+      - postfix
+
+- name: Start postfix service
+  service:
+    name: postfix
+    state: started
+    enabled: true
+
+- name: Copy /etc/postfix/main.cf
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    mode: 0644
+    backup: yes
+  notify: reload postfix
+
+- name: Copy /etc/postfix/sasl_passwd
+  template:
+    src: sasl_passwd.j2
+    dest: /etc/postfix/sasl_passwd
+    mode: 0600
+
+- name: sasl_passwd.db
+  shell: >
+    postmap hash:/etc/postfix/sasl_passwd
+  args:
+    creates: /etc/postfix/sasl_passwd.db

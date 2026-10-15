@@ -1,0 +1,29 @@
+---
+- name: Install Apache
+  dnf:
+    name: httpd
+    state: present
+
+- name: Start Apache service
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Apache configuration file
+  template: src={{ apache24_httpd_conf }} dest=/etc/httpd/conf/httpd.conf mode=0644 backup=yes
+  notify: restart httpd
+
+- name: Apache info.conf
+  template: src=info.conf.j2 dest=/etc/httpd/conf.d/info.conf mode=0644 backup=yes
+  notify: restart httpd
+
+- name: Remove conf.d files
+  copy:
+    content: "# {{ item }} disabled."
+    dest: /etc/httpd/conf.d/{{ item }}
+  with_items:
+    - autoindex.conf
+    - userdir.conf
+    - welcome.conf
+  notify: restart httpd
